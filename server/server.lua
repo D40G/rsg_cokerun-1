@@ -1,0 +1,12 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
+RegisterServerEvent('rsg_cokerun:server:dealreward')
+AddEventHandler('rsg_cokerun:server:dealreward', function(order)
+    local src = tonumber(source)
+    local Player = QBCore.Functions.GetPlayer(src)
+	Player.Functions.RemoveItem('cokebaggy', order)
+	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cokebaggy'], "remove")
+	Player.Functions.AddItem('markedbills', (order * Config.Payment))
+	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['markedbills'], "add")
+	TriggerClientEvent('QBCore:Notify', src, 'you received '..(order * Config.Payment)..' marked bills', 'success')
+end)
